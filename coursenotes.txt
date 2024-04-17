@@ -1,0 +1,586 @@
+%----------------------- Master .NET Core MVC: Build Market Management System .NET 8 ----------------------------------------------%
+
+%-------------------------------------------- Section 1: Introduction --------------------------------------------%
+
+https://github.com/frank-liu-toronto/MVCCourse
+
+
+## Web Application Framework:
+
+	User ---> User [Browser] -----Request----> [Server](Mapping (function)(Handle request))
+	User <--- User [Browser] <----Response---- [Server] (generate and return html repsonse)
+	
+## Why need framework?
+
+
+http://localhost:5088/
+
+https://localhost:7272/
+
+## MVC (Model View Controller) Pattern in ASP.NET Core
+
+
+## Add Support for MVC Framework
+
+https://localhost:7146/home/index
+
+
+https://localhost:7146/home/error
+
+
+https://localhost:7146/categories/index
+
+https://localhost:7146/categories
+
+
+https://getbootstrap.com/docs/4.0/getting-started/download/
+
+
+https://localhost:7146/lib/bootstrap/css/bootstrap.css
+
+%-------------------------------------------- Section 2: Implement Categories CRUD Operations --------------------------------------------%
+
+
+-----------------------------------------------------------------------------
+@using WebApp1.Models;
+@model List<Category>
+
+@section title{
+    <h3>Categories</h3>
+}
+
+<ul>
+    @foreach(var category in Model)
+    {
+        <li>
+            @category.Name
+        </li>
+    }
+
+</ul>
+
+--------------------------------------------------------------------------
+
+@using WebApp1.Models;
+@model List<Category>
+
+@section title{
+    <h3>Categories</h3>
+}
+
+@if (Model != null && Model.Count() > 0)
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in Model)
+            {
+                <tr>
+                    <td>@category.Name</td>
+                    <td>@category.Description</td>
+                    <td><a class="btn btn-link" href="@($"/categories/edit/{category.CategoryId}")">Edit</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    
+}
+
+
+--------------------------------------------------------------------
+
+## Model Binding comes from:
+
+- [FromQuery] - Gets values from the query string.
+- [FromRoute] - Gets values from route data.
+- [FromForm] - Gets values from posted form fields.
+- [FromBody] - Gets values from the request body.
+- [FromHeader] - Gets values from HTTP headers.
+
+--------------------------------------------------------------------
+------------------------------------ Add.cshtml----------------------
+@model Category
+
+@section title {
+           <h3> Add New Category</h3> 
+}
+
+<form method="post" asp-controller="categories" asp-action="add">
+
+    <div class="text-danger" asp-validation-summary="All"></div>
+
+    <div class="row mb-3">
+        <div class="col-2">
+            <label asp-for="Name" class="col-form-label"></label>
+        </div>
+        <div class="col-6">
+            <input type="text" asp-for="Name" class="form-control" />
+        </div>
+        <div class="col">
+            <span class="text-danger" asp-validation-for="Name"></span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-2">
+            <label asp-for="Description" class="col-form-label"></label>
+        </div>
+        <div class="col-6">
+            <input type="text" asp-for="Description" class="form-control" />
+        </div>
+        <div class="col">
+            <span class="text-danger" asp-validation-for="Description"></span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-2">
+            <input type="submit" class="btn btn-primary" value="Add" />
+        </div>
+        <div class="col-6">
+        </div>
+    </div>
+
+---------------------------------- Edit.cshtml----------------------
+
+
+@model Category
+
+@section title{
+    @if (Model != null)
+    {
+        <h3>Category: @Model.Name</h3>
+
+    }
+}
+
+@if (Model != null)
+{
+
+    <form method="post" asp-controller="categories" asp-action="edit">
+
+        <input type="hidden" asp-for="CategoryId" />
+        <div class="text-danger" asp-validation-summary="All"></div>
+
+        <div class="row mb-3">
+            <div class="col-2">
+                <label asp-for="Name" class="col-form-label"></label>
+            </div>
+            <div class="col-6">
+                <input type="text" asp-for="Name" class="form-control" />
+            </div>
+            <div class="col">
+                <span class="text-danger" asp-validation-for="Name"></span>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-2">
+                <label asp-for="Description" class="col-form-label"></label>
+            </div>
+            <div class="col-6">
+                <input type="text" asp-for="Description" class="form-control" />
+            </div>
+            <div class="col">
+                <span class="text-danger" asp-validation-for="Description"></span>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-2">
+                <input type="submit" class="btn btn-primary" value="Save" />
+            </div>
+            <div class="col-6">
+            </div>
+        </div>
+    </form>
+}
+
+----------------------------------------------------------------------------------
+
+%------------------------------------------- Section 3: Course Project : Implement Products CRUD --------------------------------------------%
+
+
+https://localhost:7146/products/index
+
+
+
+
+%-------------------------------------------- Section 4: Implement the Cashier's Console --------------------------------------------%
+
+
+https://releases.jquery.com/
+
+---------------------jquery--------------------
+<script
+  src="https://code.jquery.com/jquery-3.7.1.js"
+  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+  crossorigin="anonymous"></script>
+
+--------------------------------------------------
+
+
+# ViewComponent
+
+
+%-------------------------------------------- Section 5: Adopting Clean Architecture -------------------------------------------%
+
+
+## Clean Architecture 
+
+https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+
+https://app.diagrams.net
+
+
+
+## Traditional Architecture Layer
+
+[User Interface]--->[Business Logic Layer]--->[Data Access Layer]--->[Database]
+
+- Use case driven, Plug-in Interface
+ 
+## Use Case Driven Development
+
+# Use Cases for Categories:
+
+- View all the categories
+- View a selected category
+- Edit a category
+- Delete a category
+
+## Now create new project "Solution WebApp1" --> Select Class Library --> CoreBusiness
+
+## Now create new project "Solution WebApp1" --> Select Class Library --> UseCases
+
+- Add dependencies to UseCases project from CoreBusiness 
+
+
+## Now create new folder (virtual) "Solution WebApp1" --> create folder --> Plugins
+
+## under same project file folder (UseCase, CoreBusiness) --> create folder --> Plugins ---> create new project (Class library) under newly create file folder(Plugins) --> Plugins.DataStore.InMemory 
+
+
+%-------------------------------------------- Section 6: Use Entity Framework Core and SQL Server ------------------------------------------%
+
+## EntityFramework Core and Nuget Packages
+- (ORM) - Object Relationship Mapping
+
+## Install Nuget packages:
+
+>> EntityFrameworkCore
+>> EntityFrameworkCore.SqlServer
+>> EntityFrameworkCore.Tools
+>> EntityFrameworkCore.Design
+
+## Migration
+- Migrate to database Sql server
+
+http://localhost:1433/
+
+# For mogration
+
+==> VS studio --> tools --> Nuget Package Manager --> Package Manager Console 
+= Default Project --> Plugins\Plugins.DataStore.SQL
+
+Each package is licensed to you by its owner. NuGet is not responsible for, nor does it grant any licenses to, third-party packages.
+Some packages may include dependencies which are governed by additional licenses. Follow the package source (feed) URL to determine any dependencies.
+
+Package Manager Console Host Version 6.9.2.1
+
+Type 'get-help NuGet' to see all available NuGet commands.
+
+(base) PM> Add-Migration init -Project Plugins.DataStore.SQL -Context MarketContext 
+
+(base) PM> Update-Database
+
+Build started...
+Build succeeded.
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (503ms) [Parameters=[], CommandType='Text', CommandTimeout='60']
+      CREATE DATABASE [MarketManagement];
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (173ms) [Parameters=[], CommandType='Text', CommandTimeout='60']
+      IF SERVERPROPERTY('EngineEdition') <> 5
+      BEGIN
+          ALTER DATABASE [MarketManagement] SET READ_COMMITTED_SNAPSHOT ON;
+      END;
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (9ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (13ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [__EFMigrationsHistory] (
+          [MigrationId] nvarchar(150) NOT NULL,
+          [ProductVersion] nvarchar(32) NOT NULL,
+          CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (14ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (12ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [MigrationId], [ProductVersion]
+      FROM [__EFMigrationsHistory]
+      ORDER BY [MigrationId];
+Microsoft.EntityFrameworkCore.Migrations[20402]
+      Applying migration '20240414044014_init'.
+Applying migration '20240414044014_init'.
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (6ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [Categories] (
+          [CategoryId] int NOT NULL IDENTITY,
+          [Name] nvarchar(max) NOT NULL,
+          [Description] nvarchar(max) NOT NULL,
+          CONSTRAINT [PK_Categories] PRIMARY KEY ([CategoryId])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [Transactions] (
+          [TransactionId] int NOT NULL IDENTITY,
+          [TimeStamp] datetime2 NOT NULL,
+          [ProductId] int NOT NULL,
+          [ProductName] nvarchar(max) NOT NULL,
+          [Price] float NOT NULL,
+          [BeforeQty] int NOT NULL,
+          [SoldQty] int NOT NULL,
+          [CashierName] nvarchar(max) NOT NULL,
+          CONSTRAINT [PK_Transactions] PRIMARY KEY ([TransactionId])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [Products] (
+          [ProductId] int NOT NULL IDENTITY,
+          [CategoryId] int NOT NULL,
+          [Name] nvarchar(max) NOT NULL,
+          [Quantity] int NOT NULL,
+          [Price] float NOT NULL,
+          CONSTRAINT [PK_Products] PRIMARY KEY ([ProductId]),
+          CONSTRAINT [FK_Products_Categories_CategoryId] FOREIGN KEY ([CategoryId]) REFERENCES [Categories] ([CategoryId]) ON DELETE CASCADE
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (60ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'CategoryId', N'Description', N'Name') AND [object_id] = OBJECT_ID(N'[Categories]'))
+          SET IDENTITY_INSERT [Categories] ON;
+      INSERT INTO [Categories] ([CategoryId], [Description], [Name])
+      VALUES (1, N'Beverage', N'Beverage'),
+      (2, N'Bakery', N'Bakery'),
+      (3, N'Fruits', N'Fruit');
+      IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'CategoryId', N'Description', N'Name') AND [object_id] = OBJECT_ID(N'[Categories]'))
+          SET IDENTITY_INSERT [Categories] OFF;
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (32ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'ProductId', N'CategoryId', N'Name', N'Price', N'Quantity') AND [object_id] = OBJECT_ID(N'[Products]'))
+          SET IDENTITY_INSERT [Products] ON;
+      INSERT INTO [Products] ([ProductId], [CategoryId], [Name], [Price], [Quantity])
+      VALUES (1, 1, N'Iced Tea', 1.99E0, 100),
+      (2, 1, N'Canada Dry', 1.99E0, 200),
+      (3, 2, N'Whole Wheat Bread', 1.5E0, 300),
+      (4, 2, N'White Bread', 1.5E0, 300);
+      IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'ProductId', N'CategoryId', N'Name', N'Price', N'Quantity') AND [object_id] = OBJECT_ID(N'[Products]'))
+          SET IDENTITY_INSERT [Products] OFF;
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (23ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_Products_CategoryId] ON [Products] ([CategoryId]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (8ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+      VALUES (N'20240414044014_init', N'8.0.4');
+Done.
+(base) PM> 
+
+ 
+ 
+%-------------------------------------------- Section 7: Authentication & Authorization -------------------------------------------%
+
+## For Authentication and Authentication
+
+# WebApp1 Project Solution --> right click --> Add --> New Scaffolded Item --> Identity --> It will take few minutes and installed NuGet Packages
+
+## In Identity --> Select --> Account\Login , Account\Logout , Account\Register
+## Now create new DbContext Class for Identity --> WebApp1.Data.AccountContext
+## Now create new User Class for Identity --> IdentityUser
+
+## Inside the WebApp1 Project Solution --> Area --> we can create new folders for different Areas such as; InventoryManagement, Sales, Shipping etc.
+
+PM>> Add-migration Init_Identity -Context AccountContext 
+
+(base) PM> Add-migration Init_Identity -Context AccountContext
+Build started...
+Build succeeded.
+To undo this action, use Remove-Migration.
+
+(base) PM> Update-Database -Context AccountContext
+
+Build started...
+Build succeeded.
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (25ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (30ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (27ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT [MigrationId], [ProductVersion]
+      FROM [__EFMigrationsHistory]
+      ORDER BY [MigrationId];
+Microsoft.EntityFrameworkCore.Migrations[20402]
+      Applying migration '20240416085640_Init_Identity'.
+Applying migration '20240416085640_Init_Identity'.
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (35ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [AspNetRoles] (
+          [Id] nvarchar(450) NOT NULL,
+          [Name] nvarchar(256) NULL,
+          [NormalizedName] nvarchar(256) NULL,
+          [ConcurrencyStamp] nvarchar(max) NULL,
+          CONSTRAINT [PK_AspNetRoles] PRIMARY KEY ([Id])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (16ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [AspNetUsers] (
+          [Id] nvarchar(450) NOT NULL,
+          [UserName] nvarchar(256) NULL,
+          [NormalizedUserName] nvarchar(256) NULL,
+          [Email] nvarchar(256) NULL,
+          [NormalizedEmail] nvarchar(256) NULL,
+          [EmailConfirmed] bit NOT NULL,
+          [PasswordHash] nvarchar(max) NULL,
+          [SecurityStamp] nvarchar(max) NULL,
+          [ConcurrencyStamp] nvarchar(max) NULL,
+          [PhoneNumber] nvarchar(max) NULL,
+          [PhoneNumberConfirmed] bit NOT NULL,
+          [TwoFactorEnabled] bit NOT NULL,
+          [LockoutEnd] datetimeoffset NULL,
+          [LockoutEnabled] bit NOT NULL,
+          [AccessFailedCount] int NOT NULL,
+          CONSTRAINT [PK_AspNetUsers] PRIMARY KEY ([Id])
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (15ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [AspNetRoleClaims] (
+          [Id] int NOT NULL IDENTITY,
+          [RoleId] nvarchar(450) NOT NULL,
+          [ClaimType] nvarchar(max) NULL,
+          [ClaimValue] nvarchar(max) NULL,
+          CONSTRAINT [PK_AspNetRoleClaims] PRIMARY KEY ([Id]),
+          CONSTRAINT [FK_AspNetRoleClaims_AspNetRoles_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [AspNetRoles] ([Id]) ON DELETE CASCADE
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (8ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [AspNetUserClaims] (
+          [Id] int NOT NULL IDENTITY,
+          [UserId] nvarchar(450) NOT NULL,
+          [ClaimType] nvarchar(max) NULL,
+          [ClaimValue] nvarchar(max) NULL,
+          CONSTRAINT [PK_AspNetUserClaims] PRIMARY KEY ([Id]),
+          CONSTRAINT [FK_AspNetUserClaims_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (16ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [AspNetUserLogins] (
+          [LoginProvider] nvarchar(128) NOT NULL,
+          [ProviderKey] nvarchar(128) NOT NULL,
+          [ProviderDisplayName] nvarchar(max) NULL,
+          [UserId] nvarchar(450) NOT NULL,
+          CONSTRAINT [PK_AspNetUserLogins] PRIMARY KEY ([LoginProvider], [ProviderKey]),
+          CONSTRAINT [FK_AspNetUserLogins_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (19ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [AspNetUserRoles] (
+          [UserId] nvarchar(450) NOT NULL,
+          [RoleId] nvarchar(450) NOT NULL,
+          CONSTRAINT [PK_AspNetUserRoles] PRIMARY KEY ([UserId], [RoleId]),
+          CONSTRAINT [FK_AspNetUserRoles_AspNetRoles_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [AspNetRoles] ([Id]) ON DELETE CASCADE,
+          CONSTRAINT [FK_AspNetUserRoles_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (18ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE TABLE [AspNetUserTokens] (
+          [UserId] nvarchar(450) NOT NULL,
+          [LoginProvider] nvarchar(128) NOT NULL,
+          [Name] nvarchar(128) NOT NULL,
+          [Value] nvarchar(max) NULL,
+          CONSTRAINT [PK_AspNetUserTokens] PRIMARY KEY ([UserId], [LoginProvider], [Name]),
+          CONSTRAINT [FK_AspNetUserTokens_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE
+      );
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (14ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_AspNetRoleClaims_RoleId] ON [AspNetRoleClaims] ([RoleId]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (12ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE UNIQUE INDEX [RoleNameIndex] ON [AspNetRoles] ([NormalizedName]) WHERE [NormalizedName] IS NOT NULL;
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_AspNetUserClaims_UserId] ON [AspNetUserClaims] ([UserId]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_AspNetUserLogins_UserId] ON [AspNetUserLogins] ([UserId]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [IX_AspNetUserRoles_RoleId] ON [AspNetUserRoles] ([RoleId]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE INDEX [EmailIndex] ON [AspNetUsers] ([NormalizedEmail]);
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      CREATE UNIQUE INDEX [UserNameIndex] ON [AspNetUsers] ([NormalizedUserName]) WHERE [NormalizedUserName] IS NOT NULL;
+Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (19ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+      VALUES (N'20240416085640_Init_Identity', N'8.0.4');
+	  
+	  
+----------------------------------------------------------------------------------------------------------------------------------------
+
+## Protect the App With Identity
+
+## testuser@test.com, Testuser123#
+
+## Configure Policies
+
+## insert user claim table data in database table AspNetUserClaims
+
+
+SELECT TOP (1000) [Id]
+      ,[UserId]
+      ,[ClaimType]
+      ,[ClaimValue]
+  FROM [MarketManagement].[dbo].[AspNetUserClaims]
+
+insert into AspNetUserClaims
+  values('7072e930-78c0-4373-9b51-1869b9339fbc','position', 'Inventory')
+
+insert into AspNetUserClaims
+  values('ecf78220-9d58-4cc8-bebd-fae864aee7cc','position', 'Cashier')
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
